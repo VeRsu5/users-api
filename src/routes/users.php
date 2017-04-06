@@ -24,9 +24,31 @@ $app->get('/api/users', function(Request $request, Response $response ){
     }
 });
 
-//Get single user request
-$app->get('/api/user/{id}', function(Request $request, Response $response ){
-    //Getting Attributes
+//Get single user based on email
+$app->get('/api/euser/{email}', function(Request $request, Response $response) {
+    //Getting attribute
+    $email = $request->getAttribute('email');
+    //Statement to be executed
+    $sql = "SELECT * FROM user WHERE email = '$email'";
+
+    try {
+        //Get db object
+        $db = new db();
+        //Connect
+        $db = $db->connect();
+        //Querying
+        $stmt = $db->query($sql);
+        $user = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($user);
+    } catch(PDOExeception $e) {
+        echo '[{ "error": { "info":'.$e->getMessage().'}}]';
+    }
+});
+
+//Get single user request based on id
+$app->get('/api/user/{id}', function(Request $request, Response $response) {
+    //Getting Attribute
     $id = $request->getAttribute('id');
     //Statement to be executed
     $sql = "SELECT * FROM user WHERE id = $id";
