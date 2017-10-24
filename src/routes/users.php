@@ -164,7 +164,7 @@ $app->put('/api/user/put/{id}', function(Request $request, Response $response ){
 $app->delete('/api/user/delete/{id}', function(Request $request, Response $response ){
     $id = $request->getAttribute('id');
 
-    $sql = "DELETE FROM user WHERE id = $id";
+    $sql = "DELETE FROM user WHERE _id = $id";
 
     try {
         //Get db object
